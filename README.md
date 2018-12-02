@@ -11,5 +11,5 @@
 
 4th Newest.py is used to return the latest tweets containing the key word.
 
-5th findLocation.py will be used to return map with distribution. TAT
+5th FindLocation.py is used to return twitter users' country info.
 
