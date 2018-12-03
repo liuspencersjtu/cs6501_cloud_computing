@@ -26,11 +26,15 @@ time = datetime.date.today() # - datetime.timedelta(days=2)
 def getData():
     with open('TwitterData.csv', 'wb') as csvFile:
         csvWriter = csv.writer(csvFile)
-        csvWriter.writerow(['tweets'])
+        csvWriter.writerow(['tweets', 'country'])
 
-        for tweet in tweepy.Cursor(api.search, q="Sponge Bob", lang="en", until=time).items(2500):
+        for tweet in tweepy.Cursor(api.search, q="Trump", lang="en", until=time).items(2000):
             print tweet.user.screen_name, "Tweeted:", tweet.text, "at", tweet.created_at
-            csvWriter.writerow([tweet.text.encode('utf-8')])
+            if tweet.place != None:
+                location = tweet.place.country.encode('utf-8')
+            else:
+                location = "Not shown"
+            csvWriter.writerow([tweet.text.encode('utf-8'), location])
 
     csvFile.close()
 
