@@ -7,6 +7,7 @@ import pylab as pl
 
 
 
+
 def count_words(file):
     with open(file) as f:
         words_box = []
@@ -17,16 +18,27 @@ def count_words(file):
     return collections.Counter(words_box)
 
 
-a = count_words('Tokenization.csv')
-result = a.most_common(15)
-print(result)
 
 
-for i in range(2, 14):
-    plt.bar((result[i][0],), (result[i][1],), facecolor='#1580ee', edgecolor='white')
-plt.title('Word Frequency')
-plt.xlabel('Appearing Words')
-pl.xticks(rotation=45)
-plt.ylabel('Frequency')
-plt.savefig("Word Frequency.png")
-plt.show()
+def show_plts(result):
+    if(len(result) > 15):
+        num = 14
+    else:
+        num = len(result)
+
+    for i in range(1, num):
+        plt.bar((result[i][0]), (result[i][1]), facecolor='#1580ee', edgecolor='white')
+    plt.title("Word Frequency")
+    plt.xlabel('Appearing words')
+    pl.xticks(rotation=45)
+    plt.ylabel('Frequency')
+    plt.savefig("Word Frequency.png")
+    plt.show()
+
+
+
+if __name__ == "__main__":
+    a = count_words('Tokenization.csv')
+    result = a.most_common()
+    print result
+    show_plts(result)
