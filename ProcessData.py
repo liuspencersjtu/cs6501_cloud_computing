@@ -11,12 +11,11 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 
-
 def processData():
     stopWords = stopwords.words('english')
     punctuation = list(string.punctuation)
     stop = stopWords + punctuation
-    prefix = ('rt', 'https')
+    prefix = ('rt', 'https', "'")
 
     with open('TwitterData.csv', 'rb') as csvFile1:
         readObj = csv.reader(csvFile1)
