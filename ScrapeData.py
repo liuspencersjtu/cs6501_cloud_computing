@@ -20,7 +20,7 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth, wait_on_rate_limit=True)
 
 
-time = datetime.date.today() - datetime.timedelta(days=2)
+time = datetime.date.today() # - datetime.timedelta(days=2)
 
 
 def getData():
@@ -28,7 +28,7 @@ def getData():
         csvWriter = csv.writer(csvFile)
         csvWriter.writerow(['tweets'])
 
-        for tweet in tweepy.Cursor(api.search, q="Sponge Bob", lang="en", since=time).items(2500):
+        for tweet in tweepy.Cursor(api.search, q="Sponge Bob", lang="en", until=time).items(2500):
             print tweet.user.screen_name, "Tweeted:", tweet.text, "at", tweet.created_at
             csvWriter.writerow([tweet.text.encode('utf-8')])
 
