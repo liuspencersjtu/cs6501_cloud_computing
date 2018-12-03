@@ -7,6 +7,9 @@ import sys
 import re
 import collections
 
+import matplotlib.pyplot as plt
+import pylab as pl
+
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -24,7 +27,6 @@ api = tweepy.API(auth, wait_on_rate_limit=True)
 
 time = datetime.date.today() - datetime.timedelta(days=2)
 
-
 def getData():
 
     with open('Country.csv', 'w') as file:
@@ -40,8 +42,9 @@ def getData():
 
 
     a = get_words('Country.csv')
-    result = a.most_common(15)
+    result = a.most_common(8)
     print(result)
+    show_plots(result)
 
 
 
@@ -56,6 +59,16 @@ def get_words(file):
 
 
 
+
+def show_plots(result):
+    for i in range(0, 7):
+        plt.bar((result[i][0],), (result[i][1],), facecolor='#1580ee', edgecolor='white')
+    plt.title("Users' Country")
+    plt.xlabel('Country')
+    pl.xticks(rotation=45)
+    plt.ylabel('Frequency')
+    plt.savefig("Country.png")
+    plt.show()
 
 
 
