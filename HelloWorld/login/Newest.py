@@ -4,8 +4,8 @@ import tweepy
 import sys
 
 
-reload(sys)
-sys.setdefaultencoding('utf-8')
+#reload(sys)
+#sys.setdefaultencoding('utf-8')
 
 
 consumer_key = "5w07RnjEIeanOx7v3C2SyVU32"
@@ -19,11 +19,13 @@ api = tweepy.API(auth, wait_on_rate_limit=True)
 
 
 
-def getTweets():
-    search_results = api.search(q='Sponge Bob', lang="en", count=5)
+def getTweets(data):
+    #search_results = api.search(q='Sponge Bob', lang="en", count=5)
+    search_results = api.search(q=data, lang="en", count=5)
 
     for tweet in search_results:
-        print tweet.user.screen_name, "Tweeted:", tweet.text, "at", tweet.created_at
+        print(tweet.user.screen_name, "Tweeted:", tweet.text, "at", tweet.created_at)
+        return tweet.text
 
 
 
