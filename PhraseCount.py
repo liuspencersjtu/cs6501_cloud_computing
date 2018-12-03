@@ -7,7 +7,7 @@ import pylab as pl
 
 
 
-def get_words(file):
+def count_words(file):
     with open(file) as f:
         words_box = []
         for line in f:
@@ -17,7 +17,7 @@ def get_words(file):
     return collections.Counter(words_box)
 
 
-a = get_words('Tokenization.csv')
+a = count_words('Tokenization.csv')
 result = a.most_common(15)
 print(result)
 
