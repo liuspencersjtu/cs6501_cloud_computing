@@ -2,6 +2,7 @@
 
 import tweepy
 import sys
+import datetime
 import json
 import csv
 
@@ -19,10 +20,10 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth, wait_on_rate_limit=True)
 
-
+time = datetime.date.today() # - datetime.timedelta(days=2)
 
 def getTweets():
-    search_results = api.search(q='Sponge Bob', lang="en", count=5)
+    search_results = api.search(q='Sponge Bob', lang="en", count=2, until=time)
 
     with open('Newest.csv', 'wb') as csvFile:
         csvWriter = csv.writer(csvFile)
@@ -31,7 +32,7 @@ def getTweets():
             csvWriter.writerow([tweet.user.screen_name, tweet.text.encode('utf-8'), tweet.created_at])
 
     csvFile.close()
-    write_json(read_csv('Newest.csv'), 'Newest.json', 'good')
+    # write_json(read_csv('Newest.csv'), 'Newest.json', 'good')
 
 
 
