@@ -22,10 +22,11 @@ result = a.most_common(15)
 print(result)
 
 
-for i in range(2,14):
+for i in range(2, 14):
     plt.bar((result[i][0],), (result[i][1],), facecolor='#1580ee', edgecolor='white')
 plt.title('Word Frequency')
 plt.xlabel('Appearing Words')
 pl.xticks(rotation=45)
 plt.ylabel('Frequency')
+plt.savefig("Word Frequency.png")
 plt.show()
