@@ -1,12 +1,9 @@
 # - * - coding: <utf-8> - * -
 
-import tweepy
-import datetime
 import csv
 import sys
 import re
 import collections
-
 import matplotlib.pyplot as plt
 import pylab as pl
 
@@ -15,53 +12,28 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 
-consumer_key = "5w07RnjEIeanOx7v3C2SyVU32"
-consumer_secret = "ncRcjQ6lFqCmQdpZ1tdgOekHbYbHbajBUSkx0WqJPWss4zFKn1"
-access_token = "1059459728026333186-OSh3xLdkn4G5ivbxkedtLgaBG3tsvl"
-access_token_secret = "DRntBt54wmdgHocReGOcTwwnDEDsTfK3bRG2elkkM31NF"
-
-auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_token, access_token_secret)
-api = tweepy.API(auth, wait_on_rate_limit=True)
-
-
-time = datetime.date.today() - datetime.timedelta(days=2)
-
-def getData():
-
-    with open('Country.csv', 'w') as file:
-        csvWriter = csv.writer(file)
-
-        for tweet in tweepy.Cursor(api.search, q="Sponge Bob", lang="en", since=time).items(2500):
-            if tweet.place == None:
-                continue
-            csvWriter.writerow([tweet.place.country.encode('utf-8')])
-            print tweet.place.country
-
-    file.close()
-
-
-    a = get_words('Country.csv')
-    result = a.most_common(8)
-    print(result)
-    show_plots(result)
-
-
-
 def get_words(file):
-    with open(file) as f:
+    with open(file, 'rb') as csvFile1:
+        readObj = csv.reader(csvFile1)
         words_box = []
-        for line in f:
+        next(readObj)                           # start from second
+
+        for line in readObj:
+            data = line[1]
             # remove chaotic characters
-            if re.match(r'[a-zA-Z0-9]*', line):
-                words_box.extend(line.strip().split(','))
+            if re.match(r'[a-zA-Z0-9]*', data):
+                words_box.extend(data.strip().split(','))
     return collections.Counter(words_box)
 
 
 
-
 def show_plots(result):
-    for i in range(0, 7):
+    if (len(result) > 15):
+        num = 14
+    else:
+        num = len(result)
+
+    for i in range(1, num):
         plt.bar((result[i][0],), (result[i][1],), facecolor='#1580ee', edgecolor='white')
     plt.title("Users' Country")
     plt.xlabel('Country')
@@ -72,6 +44,8 @@ def show_plots(result):
 
 
 
-
 if __name__ == "__main__":
-   getData()
+    a = get_words('Twitter.csv')
+    result = a.most_common()
+    print(result)
+    show_plots(result)
