@@ -21,9 +21,10 @@ def processData():
         readObj = csv.reader(csvFile1)
         csvFile2 = open('Tokenization.csv', 'wb')
         writeObj = csv.writer(csvFile2)
-        next(readObj)                           # start from second
+        next(readObj)                           # start from the second row
 
         for line in readObj:
+            # process tweet texts data
             data = line[0]
             wordsFiltered = []
             # tokenization by nltk
@@ -44,7 +45,6 @@ def processData():
 
 
     csvFile2.close()
-
 
 
 if __name__ == "__main__":
