@@ -6,8 +6,6 @@ import matplotlib.pyplot as plt
 import pylab as pl
 
 
-
-
 def count_words(file):
     with open(file) as f:
         words_box = []
@@ -16,8 +14,6 @@ def count_words(file):
             if re.match(r'[a-zA-Z0-9]*', line):
                 words_box.extend(line.strip().split(','))
     return collections.Counter(words_box)
-
-
 
 
 def show_plts(result):
