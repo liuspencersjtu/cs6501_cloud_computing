@@ -19,6 +19,7 @@ def get_words(file):
         next(readObj)                           # start from second
 
         for line in readObj:
+            # use location data in scraped file
             data = line[1]
             # remove chaotic characters
             if re.match(r'[a-zA-Z0-9]*', data):
