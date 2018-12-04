@@ -26,14 +26,16 @@ time = datetime.date.today() # - datetime.timedelta(days=2)
 def getData():
     with open('TwitterData.csv', 'wb') as csvFile:
         csvWriter = csv.writer(csvFile)
-        csvWriter.writerow(['tweets', 'country'])
+        csvWriter.writerow(['tweets', 'location'])
 
+        # scrape 2000 tweets containing query words until current time
         for tweet in tweepy.Cursor(api.search, q="Trump", lang="en", until=time).items(2000):
             print tweet.user.screen_name, "Tweeted:", tweet.text, "at", tweet.created_at
             if tweet.place != None:
-                location = tweet.place.country.encode('utf-8')
+                location = tweet.place.full_name
             else:
-                location = "Not shown"
+                location = ""
+            # store tweet text and users' location information
             csvWriter.writerow([tweet.text.encode('utf-8'), location])
 
     csvFile.close()
