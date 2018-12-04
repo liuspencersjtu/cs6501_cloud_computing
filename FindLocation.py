@@ -45,7 +45,7 @@ def show_plots(result):
 
 
 if __name__ == "__main__":
-    a = get_words('Twitter.csv')
+    a = get_words('TwitterData.csv')
     result = a.most_common()
     print(result)
     show_plots(result)
