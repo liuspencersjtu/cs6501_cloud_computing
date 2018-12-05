@@ -11,5 +11,8 @@
 
 4th Newest.py is used to return the latest tweets containing the key word.
 
-5th FindLocation.py is used to return twitter users' country info.
+// 5th FindLocation.py is used to return twitter users' country info.
+
+5th DrawMap.py is used to draw a distribution map according to "full_name" in Tweets.
+    It shows the location of twitter users who are willing to show their location information in Tweet.
 
