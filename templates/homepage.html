@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>What's going on on Twitter?</title>
+    <!-- AWS javascripts-->
+    <!--<script src="https://sdk.amazonaws.com/js/aws-sdk-2.41.0.min.js"></script>-->
+    <script src="/static/js/aws-sdk-2.41.0.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <!--<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+    <link href="/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/css/coming-soon.min.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+
+   <div class="overlay">
+    <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+      <source src="/static/mp4/twitter_search_2.mp4" type="video/mp4">
+    </video>
+   </div>
+  
+    <div class="masthead">
+      <!--<div class="masthead-bg"></div>-->
+      <div class="container h-50">
+        <div class="row h-50">
+          <div class="col-11 my-auto">
+            <div class="masthead-content text-white py-5 py-md-0">
+               <div class="social-icons">
+                <input type="button" onclick="return loadchatbot()">
+                  <i class="fab fa-rocketchat fa-4x fa-border"></i>
+                </input>
+              </div>
+              <div class="gif">
+                  <img src="/static/img/twitter-bird.gif" width="150" height="150" alt=""/>
+              </div>
+              <h1 class="mb-3">What's going on on Twitter?</h1>
+              <p class="mb-5">What are people from different places talking about on Twitter? What do people most concern about a certain thing? Search for <strong>key words</strong> and chat with our <strong>Chatbot</strong> to find what's going on on Twitter! </p>
+              <div class="input-group input-group-newsletter" method="post">
+                  <input type="text" id="key_word" class="form-control" placeholder="Search Key Words on Twitter..." aria-label="Search Key Words on Twitter..." aria-describedby="basic-addon">
+                   <div class="input-group-append">
+                      <!--<input type="button" class="btn btn-secondary" value="Search" onclick="return search_key_word()"></input>-->
+                      <input type="button" class="btn btn-secondary" value="Search" onclick="return search_key_word()"></input>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+      <div class="guideline" id="guide_line">
+           <h2 class="mb-5" style="color: rgba(63, 127, 191, 1)">Basic function of our website? See the results of searching <strong style="color: #C04405">"Sponge Bob"</strong>!</h2>
+           <image id="imgarea" src="/static/img/spongebob.jpg" alt=""/>
+           <input type="button" class="btn btn-secondary" value="Distribution of Twitters" onclick="return load_dis() "> </input>
+           <input type="button" class="btn btn-secondary" value="Related Words" onclick="return load_rel() "> </input>
+           <input type="button" class="btn btn-secondary" value="Latest Twitters" onclick="return load_lat() "> </input>
+
+      </div>
+
+      <div id="latest_twitts">
+      </div>
+    <script>
+        function search_key_word(){
+            
+           var keywordDiv=document.getElementById("key_word");
+           var keyword=keywordDiv.value.trim(); 
+           /*keyword 是需要传输的文本， 点击按钮执行这个程序，与后台进行交互*/
+           var word = {
+            "data" : keyword
+           }
+           $.ajax(
+           {
+            type: "POST",
+            data: word,
+            success: function (data) {
+                    data = JSON.parse(data);
+                    alert(data["result"]);
+                    var latest_twitsDiv=document.getElementById("latest_twitts");
+                    //var node_text=document.createTextNode(data["request"]);//这里是data[request]返回的文本
+                    var node_text=document.createTextNode(data["result"]);//这里是data[request]返回的文本
+                    var twittersDiv=document.createElement("p");
+                    twittersDiv.className = 'twitters';
+                    //var node_text=document.createTextNode(data["request"]);
+                    var node_text=document.createTextNode(data["result"]);
+                    twittersDiv.appendChild(node_text);
+                    var latest_twitsDiv=document.getElementById("latest_twitts");
+                    latest_twitsDiv.appendChild(twittersDiv);
+                },
+           })
+        }
+        function loadchatbot(){
+           window.open('chatbot', 'newindow', 'top=0, left=0, right=0, bottom=0, toolbar=no, menubar=no, depended=yes, scrollbars=yes, resizable=yes, location=yes, status=no');
+
+        }
+
+         function load_dis(){
+           var imgdiv=document.getElementById("imgarea");
+           imgdiv.setAttribute("src","/static/img/distribution.jpg");
+        }
+        function load_rel(){
+           var imgdiv=document.getElementById("imgarea");
+           imgdiv.setAttribute("src","/static/img/related_words.jpg");
+        }
+        function load_lat(){
+           var imgdiv=document.getElementById("imgarea");
+           imgdiv.setAttribute("src","/static/img/latest_twitters.jpg");
+        }
+
+
+        //to support ajax
+        // using jQuery
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // 这些HTTP方法不要求CSRF包含
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+    </script>
+    </script>-->
+    <!-- Bootstrap core JavaScript -->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="/static/js/coming-soon.min.js"></script> 
+
+
+    <table border="1">
+            <thead>
+                <tr>Twitter</tr>
+            </thead>
+            <tbody>
+                {% for item in data %}
+                <tr>
+                    <td>{{ item.result }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    
+  </body>
+
+</html>
